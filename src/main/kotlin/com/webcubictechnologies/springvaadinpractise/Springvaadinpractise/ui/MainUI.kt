@@ -1,10 +1,12 @@
 package com.webcubictechnologies.springvaadinpractise.Springvaadinpractise.ui
 
+import com.vaadin.event.ShortcutAction
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.server.VaadinRequest
 import com.vaadin.spring.annotation.SpringUI
 import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
+import com.webcubictechnologies.springvaadinpractise.Springvaadinpractise.models.Todo
 import com.webcubictechnologies.springvaadinpractise.Springvaadinpractise.views.TodoListLayout
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -41,10 +43,18 @@ class MainUI : UI() {
         val forlayout = HorizontalLayout()
         forlayout.setWidth("80%")
         val field = TextField()
-        val button = Button("Add")
+        val button = Button("")
         button.addStyleName(ValoTheme.BUTTON_PRIMARY)
         button.icon = VaadinIcons.PLUS
-        forlayout.addComponentsAndExpand(field, button)
+        forlayout.addComponentsAndExpand(field)
+        forlayout.addComponent(button)
+        button.addClickListener {
+            todoListLayout.addTodos(Todo(task = field.value))
+            field.clear()
+            field.focus()
+        }
+        field.focus()
+        button.setClickShortcut(ShortcutAction.KeyCode.ENTER)
         root?.addComponent(forlayout)
     }
 
